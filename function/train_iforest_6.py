@@ -13,13 +13,14 @@ def iforest():
             "path_depth",
             "has_query",
             "has_values",
-            "freq_label"
+            "freq_label",
+            "predicted_label"
         ]
     ]
 
     model = IsolationForest(
-        n_estimators=3000,
-        contamination=0.5,
+        n_estimators=9000,
+        contamination=0.005,
         random_state=100
     )
 

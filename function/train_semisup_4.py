@@ -1,0 +1,61 @@
+import pandas as pd
+from sklearn.semi_supervised import LabelSpreading
+from sklearn.preprocessing import StandardScaler
+from sklearn.utils import resample
+import joblib
+
+# --------------------------------------------------
+# Load features (KEEP df AS DATAFRAME ONLY)
+# --------------------------------------------------
+df = pd.read_csv("Csv/features_semisup/features_semisup.csv")
+
+def train():
+    # --------------------------------------------------
+    # 1. CLEAN DATA
+    # --------------------------------------------------
+    df_clean = df.fillna(0)
+
+    # --------------------------------------------------
+    # 2. SUBSAMPLE (AVOID OOM)
+    # --------------------------------------------------
+    TRAIN_SIZE = 30000
+
+    df_train = resample(
+        df_clean,
+        n_samples=TRAIN_SIZE,
+        random_state=42
+    )
+
+    # --------------------------------------------------
+    # 3. SPLIT FEATURES / LABELS (SAFE)
+    # --------------------------------------------------
+    X_train_df = df_train.drop(columns=["label"])
+    y_train = df_train["label"]
+
+    # --------------------------------------------------
+    # 4. SCALE FEATURES (DO NOT OVERWRITE df)
+    # --------------------------------------------------
+    scaler = StandardScaler()
+    X_train_scaled = scaler.fit_transform(X_train_df)
+
+    # --------------------------------------------------
+    # 5. TRAIN SEMI-SUPERVISED MODEL
+    # --------------------------------------------------
+    model = LabelSpreading(
+        kernel="rbf",
+        gamma=0.5,
+        max_iter=50
+    )
+
+    model.fit(X_train_scaled, y_train)
+
+    # --------------------------------------------------
+    # 6. SAVE MODEL + SCALER
+    # --------------------------------------------------
+    joblib.dump(model, "Model/semisup_model.joblib")
+    joblib.dump(scaler, "Model/semisup_scaler.joblib")
+
+    print("[+] Semi-supervised model trained successfully")
+
+if __name__ == "__main__":
+    train()

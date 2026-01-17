@@ -1,2 +1,3 @@
-tmp/*
-Project/*
+tmp
+Project
+__pycache__

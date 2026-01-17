@@ -1,0 +1,4 @@
+sql = 9
+command injection = 8
+xss =5
+normal 0

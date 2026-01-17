@@ -9,7 +9,7 @@ import time
 
 
 print("======== Starting Model =============")
-time.sleep(0.3)
+time.sleep(3)
 
 print("======== Cleaning Log ===============")
 function.parse_log_1.parser()
@@ -23,7 +23,6 @@ function.features_3.features()
 time.sleep(0.5)
 print("======== Training Model ================")
 function.train_semisup_4.train()
-time.sleep(2)
 print("======== Geting pattern ================== ")
 function.predict_semisup_5.predict()
 time.sleep(0.2)

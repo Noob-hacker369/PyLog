@@ -14,14 +14,14 @@ def predict():
     # Prepare feature matrix
     # ----------------------------------------
     FEATURES = [
-        "method_enc",
-        "path_len",
-        "path_depth",
-        "has_query",
-        "has_values",
-        "is_php",
-        "is_static",
-        "freq_label"
+            "method_enc",
+            "path_len",
+            "path_depth",
+            "has_query",
+            "has_values",
+            "is_static",
+            "freq_label",
+            "label"
     ]
 
     X_df = df[FEATURES].fillna(0)
@@ -32,7 +32,7 @@ def predict():
     # ----------------------------------------
     # BATCHED PREDICTION (CRITICAL FIX)
     # ----------------------------------------
-    BATCH_SIZE = 5000   # safe on most machines
+    BATCH_SIZE = 10000   # safe on most machines
     predictions = []
 
     for i in range(0, len(X_all), BATCH_SIZE):

@@ -4,20 +4,15 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.utils import resample
 import joblib
 
-# --------------------------------------------------
-# Load features (KEEP df AS DATAFRAME ONLY)
-# --------------------------------------------------
+
+# Load features 
 df = pd.read_csv("Csv/features_semisup/features_semisup.csv")
 
 def train():
-    # --------------------------------------------------
-    # 1. CLEAN DATA
-    # --------------------------------------------------
+    #  CLEAN DATA
     df_clean = df.fillna(0)
 
-    # --------------------------------------------------
-    # 2. SUBSAMPLE (AVOID OOM)
-    # --------------------------------------------------
+    #  SUBSAMPLE
     TRAIN_SIZE = 30000
 
     df_train = resample(
@@ -26,21 +21,16 @@ def train():
         random_state=42
     )
 
-    # --------------------------------------------------
-    # 3. SPLIT FEATURES / LABELS (SAFE)
-    # --------------------------------------------------
+    #  SPLIT FEATURES / LABELS (SAFE)
+
     X_train_df = df_train.drop(columns=["label"])
     y_train = df_train["label"]
 
-    # --------------------------------------------------
-    # 4. SCALE FEATURES (DO NOT OVERWRITE df)
-    # --------------------------------------------------
+    #  SCALE FEATURES (DO NOT OVERWRITE df)
     scaler = StandardScaler()
     X_train_scaled = scaler.fit_transform(X_train_df)
 
-    # --------------------------------------------------
-    # 5. TRAIN SEMI-SUPERVISED MODEL
-    # --------------------------------------------------
+    # TRAIN SEMI-SUPERVISED MODEL
     model = LabelSpreading(
         kernel="rbf",
         gamma=0.5,
@@ -49,9 +39,8 @@ def train():
 
     model.fit(X_train_scaled, y_train)
 
-    # --------------------------------------------------
-    # 6. SAVE MODEL + SCALER
-    # --------------------------------------------------
+    #SAVE MODEL + SCALER
+    
     joblib.dump(model, "Model/semisup_model.joblib")
     joblib.dump(scaler, "Model/semisup_scaler.joblib")
 

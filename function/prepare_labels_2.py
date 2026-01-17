@@ -15,22 +15,22 @@ def assign_label(row):
         "'", "%27", "--", "union", "select",
         " or ", "%20or%20", " and ", "%20and%20"
     ]):
-        return 9
+        return 9  #sqli attack
 
     if "=" in path and any(x in path for x in [
         "sleep", "%28", "%29", "ls", "cat", "echo", "/bin/"
     ]):
-        return 8
+        return 8 #command injuction
 
     if "=" in path and any(x in path for x in [
         "<script", "%3cscript", "<>", "<></>"
     ]):
-        return 5
+        return 5 #xss
 
     if path in ["/", "/style.css", "/robots.txt", "/favicon.ico"]:
-        return 0
+        return 0 #normal
 
-    return -1
+    return -1  #somting abnormal
 
 
 def prepare(func=assign_label):

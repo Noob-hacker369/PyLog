@@ -33,12 +33,21 @@ def assign_label(row):
     return -1  #somting abnormal
 
 
+def freq_score(ip):
+    count = ip_counts.get(ip, 0)
+    if count >= 100:
+        return 3
+    elif count >= 30:
+        return 2
+    elif count >= 10:
+        return 1
+    else:
+        return 0
 def prepare(func=assign_label):
     df["label"] = df.apply(func, axis=1)
 
-    df["freq_label"] = df["source_ip"].fillna("0.0.0.0").map(
-        lambda ip: 2 if ip_counts.get(ip, 0) >= 15 else 0
-    )
+
+    df["freq_label"] = df["source_ip"].apply(freq_score)
 
     df.to_csv("Csv/labeled/labeled.csv", index=False)
 

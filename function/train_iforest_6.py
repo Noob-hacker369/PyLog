@@ -2,8 +2,6 @@ import pandas as pd
 from sklearn.ensemble import IsolationForest
 import joblib
 
-
-
 def iforest():
     df = pd.read_csv("Output/semisup_output.csv")
 
@@ -13,15 +11,17 @@ def iforest():
             "path_depth",
             "has_query",
             "has_values",
-            "freq_label",
-            "predicted_label"
+            "label",
+            "predicted_label",
+            "is_static",
+            "freq_label"
         ]
     ]
 
     model = IsolationForest(
-        n_estimators=9000,
-        contamination=0.005,
-        random_state=100
+        n_estimators=10000,
+        contamination=0.5,
+        random_state=300
     )
 
     df["behavior_anomaly"] = model.fit_predict(behavior_features)
@@ -30,3 +30,7 @@ def iforest():
 
     df.to_csv("Output/final_output.csv", index=False)
     print("[+] Final output generated")
+
+
+if __name__ == "__main__":
+    iforest()

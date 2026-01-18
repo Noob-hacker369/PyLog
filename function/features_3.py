@@ -26,8 +26,8 @@ def features():
             "has_values",
             "is_php",
             "is_static",
-            "freq_label",
-            "label"
+            "label",
+            "freq_label"
         ]
     ]
 

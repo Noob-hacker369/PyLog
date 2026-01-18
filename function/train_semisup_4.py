@@ -13,12 +13,12 @@ def train():
     df_clean = df.fillna(0)
 
     #  SUBSAMPLE
-    TRAIN_SIZE = 30000
+    TRAIN_SIZE = 35000
 
     df_train = resample(
         df_clean,
         n_samples=TRAIN_SIZE,
-        random_state=42
+        random_state=200
     )
 
     #  SPLIT FEATURES / LABELS (SAFE)
@@ -33,8 +33,8 @@ def train():
     # TRAIN SEMI-SUPERVISED MODEL
     model = LabelSpreading(
         kernel="rbf",
-        gamma=0.5,
-        max_iter=50
+        gamma=1,
+        max_iter=200
     )
 
     model.fit(X_train_scaled, y_train)

@@ -1,18 +1,16 @@
 import pandas as pd
 import joblib
 
-# ----------------------------------------
 # Load data, model, scaler
-# ----------------------------------------
 def predict():
     df = pd.read_csv("Csv/features_semisup/features_semisup.csv")
 
     model = joblib.load("Model/semisup_model.joblib")
     scaler = joblib.load("Model/semisup_scaler.joblib")
 
-    # ----------------------------------------
+    
     # Prepare feature matrix
-    # ----------------------------------------
+    
     FEATURES = [
         "method_enc",
         "path_len",
@@ -20,8 +18,8 @@ def predict():
         "has_query",
         "has_values",
         "is_php",
-        "is_static",
-        "freq_label"
+        "freq_label",
+        "is_static"
     ]
 
     X_df = df[FEATURES].fillna(0)
@@ -29,9 +27,9 @@ def predict():
     # Convert to NumPy + scale (match training)
     X_all = scaler.transform(X_df.values)
 
-    # ----------------------------------------
+    
     # BATCHED PREDICTION (CRITICAL FIX)
-    # ----------------------------------------
+    
     BATCH_SIZE = 1000   # safe on most machines
     predictions = []
 
@@ -44,3 +42,8 @@ def predict():
 
     df.to_csv("Output/semisup_output.csv", index=False)
     print("[+] Semi-supervised prediction complete (batched)")
+
+
+
+if __name__ == "__main__":
+    predict()

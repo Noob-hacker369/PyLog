@@ -1,7 +1,7 @@
 import re
 import pandas as pd
 
-log_files = "Input/input_test.log"
+log_files = "data/input/input.log"
 # Regex patterns
 request_pattern = re.compile(
     r'(?P<ip>\d+\.\d+\.\d+\.\d+)\s+-\s+-\s+'
@@ -55,3 +55,4 @@ def parser(log_file=log_files):
     df = pd.DataFrame(rows)
     df.to_csv("Csv/parsed/parsed.csv", index=False)
     print("[+] parsed.csv created")
+    return True

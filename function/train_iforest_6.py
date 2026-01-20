@@ -30,6 +30,7 @@ def iforest():
 
     df.to_csv("Output/final_output.csv", index=False)
     print("[+] Final output generated")
+    return True
 
 
 if __name__ == "__main__":

@@ -56,6 +56,7 @@ def prepare(func=assign_label):
 
     print("\nFrequency label counts:")
     print(df["freq_label"].value_counts())
+    return True
 
 if __name__ == "__main__":
     prepare()

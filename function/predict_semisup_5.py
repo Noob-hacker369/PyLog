@@ -18,8 +18,8 @@ def predict():
         "has_query",
         "has_values",
         "is_php",
-        "freq_label",
-        "is_static"
+        "is_static",
+        "label"
     ]
 
     X_df = df[FEATURES].fillna(0)
@@ -30,7 +30,7 @@ def predict():
     
     # BATCHED PREDICTION (CRITICAL FIX)
     
-    BATCH_SIZE = 1000   # safe on most machines
+    BATCH_SIZE = 10000   # safe on most machines
     predictions = []
 
     for i in range(0, len(X_all), BATCH_SIZE):
@@ -42,6 +42,7 @@ def predict():
 
     df.to_csv("Output/semisup_output.csv", index=False)
     print("[+] Semi-supervised prediction complete (batched)")
+    return True
 
 
 

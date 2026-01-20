@@ -13,12 +13,12 @@ def train():
     df_clean = df.fillna(0)
 
     #  SUBSAMPLE
-    TRAIN_SIZE = 35000
+    TRAIN_SIZE = 1000
 
     df_train = resample(
         df_clean,
         n_samples=TRAIN_SIZE,
-        random_state=200
+        random_state=500
     )
 
     #  SPLIT FEATURES / LABELS (SAFE)
@@ -33,8 +33,8 @@ def train():
     # TRAIN SEMI-SUPERVISED MODEL
     model = LabelSpreading(
         kernel="rbf",
-        gamma=1,
-        max_iter=200
+        gamma=15,
+        max_iter=300
     )
 
     model.fit(X_train_scaled, y_train)
@@ -45,6 +45,7 @@ def train():
     joblib.dump(scaler, "Model/semisup_scaler.joblib")
 
     print("[+] Semi-supervised model trained successfully")
+    return True
 
 if __name__ == "__main__":
     train()

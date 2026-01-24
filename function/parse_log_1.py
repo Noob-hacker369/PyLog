@@ -56,3 +56,6 @@ def parser(log_file=log_files):
     df.to_csv("Csv/parsed/parsed.csv", index=False)
     print("[+] parsed.csv created")
     return True
+
+if __name__ == "__main__":
+    parser()

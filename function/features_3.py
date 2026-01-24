@@ -34,3 +34,6 @@ def features():
     features.to_csv("Csv/features_semisup/features_semisup.csv", index=False)
     print("[+] features.csv created")
     return True
+
+if __name__ == "__main__":
+    features()

@@ -13,7 +13,7 @@ def train():
     df_clean = df.fillna(0)
 
     #  SUBSAMPLE
-    TRAIN_SIZE = 1000
+    TRAIN_SIZE = 10000
 
     df_train = resample(
         df_clean,
@@ -33,7 +33,7 @@ def train():
     # TRAIN SEMI-SUPERVISED MODEL
     model = LabelSpreading(
         kernel="rbf",
-        gamma=15,
+        gamma=20,
         max_iter=300
     )
 

@@ -19,9 +19,9 @@ def iforest():
     ]
 
     model = IsolationForest(
-        n_estimators=10000,
+        n_estimators=5000,
         contamination=0.5,
-        random_state=300
+        random_state=100
     )
 
     df["behavior_anomaly"] = model.fit_predict(behavior_features)

@@ -1,10 +1,9 @@
 import customtkinter as ctk
 from tkinter import filedialog
-# from PIL import Image
 import os
-# import shutil
-# import time
 import threading
+import pandas as pd
+
 
 #PyLog Folder
 from function import parse_log_1
@@ -13,6 +12,10 @@ from function import features_3
 from function import train_semisup_4
 from function import predict_semisup_5
 from function import train_iforest_6
+
+import function.visulation as visulation
+
+
 # ==========================================================
 # COLOR CONFIGURATION
 # ==========================================================
@@ -213,18 +216,46 @@ class SkillApp(ctk.CTk):
         self.update_feedback("SUGGESTION: Click 'Show Result' to restore the full list view.")
 
     def _create_graph_box(self, name, border_color, peak_view=False):
-        """Helper to build a graph box with height set to allow peeking"""
-        # 500px is the 'sweet spot' for a peeking effect in an 800px window
-        box_height = 500 if peak_view else 450 
-        
-        box = ctk.CTkFrame(self.viz_scrollable, height=box_height, 
-                           corner_radius=20, border_width=2, border_color=border_color, fg_color=COLOR_GRAPH_CARD)
-        box.pack(pady=15, padx=10, fill="x")
-        box.pack_propagate(False) 
+        box_height = 500 if peak_view else 450
 
-        ctk.CTkLabel(box, text=f"--- {name} ---", font=("Arial", 16, "bold")).pack(pady=10)
-        
-        inner = ctk.CTkFrame(box, fg_color="#000000", corner_radius=15)
+        box = ctk.CTkFrame(
+            self.viz_scrollable,
+            height=box_height,
+            corner_radius=20,
+            border_width=2,
+            border_color=border_color,
+            fg_color=COLOR_GRAPH_CARD
+        )
+        box.pack(pady=15, padx=10, fill="x")
+        box.pack_propagate(False)
+
+        ctk.CTkLabel(
+            box,
+            text=f"--- {name} ---",
+            font=("Arial", 16, "bold")
+        ).pack(pady=10)
+
+        inner = ctk.CTkFrame(
+            box,
+            fg_color="#000000",
+            corner_radius=15
+        )
         inner.pack(expand=True, fill="both", padx=20, pady=(0, 20))
-        
-        ctk.CTkLabel(inner, text=f"{name} Visualization Content", text_color="#555555").pack(expand=True)
+
+        # Load ML output
+        df = pd.read_csv("Output/final_output.csv")
+
+        # Choose graph
+        if name == "Bar Graph":
+            fig = visulation.create_bar_graph(df)
+        elif name == "Pie Chart":
+            fig = visulation.create_pie_chart(df)
+        elif name == "Heat Map":
+            fig = visulation.create_heatmap(df)
+        else:
+            return
+
+        # Embed Matplotlib into GUI
+        canvas = visulation.FigureCanvasTkAgg(fig, master=inner)
+        canvas.draw()
+        canvas.get_tk_widget().pack(expand=True, fill="both")

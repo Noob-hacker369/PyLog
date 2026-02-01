@@ -19,7 +19,7 @@ def iforest():
     ]
 
     model = IsolationForest(
-        n_estimators=5000,
+        n_estimators=1000,
         contamination=0.5,
         random_state=100
     )

@@ -34,7 +34,7 @@ def predict():
     X_scaled = X_scaled.replace([np.inf, -np.inf], 0).fillna(0)
 
     # Batched prediction
-    BATCH_SIZE = 10000
+    BATCH_SIZE = 1000
     predictions = []
 
     for i in range(0, len(X_scaled), BATCH_SIZE):

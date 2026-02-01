@@ -101,9 +101,9 @@ class SkillApp(ctk.CTk):
         self.viz_scrollable.pack(expand=True, fill="both", padx=10, pady=10)
 
         # --- 4. Right Panel ---
-        self.result_text = ctk.CTkTextbox(self, width=250, fg_color=COLOR_TEXT_RESULT_BG, text_color=COLOR_MATRIX_GREEN)
-        self.result_text.grid(row=1, column=2, sticky="nsew", padx=10, pady=10)
-        self.result_text.insert("0.0", "Result Format:\nWaiting...")
+        self.result_text = ctk.CTkTextbox(self, width=0, fg_color=COLOR_TEXT_RESULT_BG, text_color=COLOR_MATRIX_GREEN)
+        # self.result_text.grid(row=1, column=2, sticky="nsew", padx=0, pady=0)
+        # self.result_text.insert("0.0", "Result Format:\nWaiting...")
         self.result_text.configure(state="disabled")
 
         # Startup Messages

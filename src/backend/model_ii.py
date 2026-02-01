@@ -13,7 +13,7 @@ def generate_results():
     with open(output_path, "w") as f:
         f.write("column1,column2\nhello,world")
         
-    text_result = "ANALYSIS COMPLETE:\n\nHello World"
+    text_result = ""
     
     # Return text and None for graphs (UI handles the placeholder slides)
     return text_result, None

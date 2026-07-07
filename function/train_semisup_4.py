@@ -6,9 +6,9 @@ import joblib
 
 
 # Load features 
-df = pd.read_csv("Csv/features_semisup/features_semisup.csv")
 
 def train():
+    df = pd.read_csv("Csv/features_semisup/features_semisup.csv")
     #  CLEAN DATA
     df_clean = df.fillna(0)
 

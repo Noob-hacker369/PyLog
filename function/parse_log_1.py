@@ -1,5 +1,6 @@
 import re
 import pandas as pd
+import os
 
 log_files = "data/input/input.log"
 # Regex patterns
@@ -20,9 +21,9 @@ attack_pattern = re.compile(
     re.IGNORECASE
 )
 
-rows = []
 
 def parser(log_file=log_files):
+    rows = []
 
     with open(log_file, "r", errors="ignore") as f:
         for line in f:

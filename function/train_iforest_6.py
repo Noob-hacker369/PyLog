@@ -1,6 +1,7 @@
 import pandas as pd
 from sklearn.ensemble import IsolationForest
 import joblib
+import os
 
 def iforest():
     df = pd.read_csv("Output/semisup_output.csv")

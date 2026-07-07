@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import joblib
+import os
 
 def predict():
     # Load data
@@ -56,4 +57,5 @@ def predict():
 
 
 if __name__ == "__main__":
+    os.remove("Output/semisup_output.csv")
     predict()

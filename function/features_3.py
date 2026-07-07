@@ -1,5 +1,6 @@
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder
+import os
 
 
 
@@ -36,4 +37,5 @@ def features():
     return True
 
 if __name__ == "__main__":
+    os.remove("Csv/features_semisup/features_semisup.csv")
     features()

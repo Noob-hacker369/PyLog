@@ -3,6 +3,7 @@ from tkinter import filedialog
 import os
 import threading
 import pandas as pd
+import time
 
 
 #PyLog Folder
@@ -133,19 +134,26 @@ class SkillApp(ctk.CTk):
         success = self.run_analysis_callback(self.selected_file_path)
 
         #parse_log_1.py run
+        os.remove("Csv/parsed/parsed.csv")
         result = parse_log_1.parser()
         if result:
             self.update_feedback("<-- Phase One OK -->\n")
+            
         
         #prepare_labels_2.py run
+        os.remove("Csv/labeled/labeled.csv")
+        time.sleep(1)
         result = prepare_labels_2.prepare()
         if result:
             self.update_feedback("<-- Phase Two OK -->\n")
+            
 
         #features_3.py run
+        os.remove("Csv/features_semisup/features_semisup.csv")
         result=features_3.features()
         if result:
             self.update_feedback("<-- Phase Three OK-->\n")
+            
         
         #train_semisup_4.py run
         result = train_semisup_4.train()
@@ -153,11 +161,13 @@ class SkillApp(ctk.CTk):
             self.update_feedback("<-- Phase Four OK-->\n")
 
         #predict_semisup_5 run
+        os.remove("Output/semisup_output.csv")
         result = predict_semisup_5.predict()
         if result:
             self.update_feedback("<-- Phase five OK -->\n")
 
         #train_iforest_6 run
+        os.remove("Output/final_output.csv")
         result = train_iforest_6.iforest()
         if result:
             self.update_feedback("<-- Final Phase ok-->\n")
@@ -166,6 +176,7 @@ class SkillApp(ctk.CTk):
             self.update_feedback("CONFIRMATION: Analysis complete.")
             self.update_feedback("SUGGESTION: Click 'Show Result' to generate visualizations.")
             self.btn_show.configure(state="normal")
+            os.remove("data/input/input.log")
 
     def start_result_thread(self):
         threading.Thread(target=self._show_results).start()

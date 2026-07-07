@@ -1,2 +1,2 @@
 total_rows,known_rows,unlabeled_rows,accuracy,attack_recall,unlabeled_attack_rate,high_confidence_alerts
-60236,164,60072,0.9512195121951219,1.0,1.0,60236
+115248,49238,66010,1.0,1.0,0.0,16863

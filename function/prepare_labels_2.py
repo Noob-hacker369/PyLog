@@ -1,8 +1,5 @@
 import pandas as pd
 
-df = pd.read_csv("Csv/parsed/parsed.csv")
-
-ip_counts = df["source_ip"].value_counts()
 
 def assign_label(row):
     path = str(row["path"]).lower()
@@ -15,40 +12,46 @@ def assign_label(row):
         "'", "%27", "--", "union", "select",
         " or ", "%20or%20", " and ", "%20and%20"
     ]):
-        return 9  #sqli attack
+        return 9  # SQLi
 
     if "=" in path and any(x in path for x in [
         "sleep", "%28", "%29", "ls", "cat", "echo", "/bin/"
     ]):
-        return 8 #command injuction
+        return 8  # Command Injection
 
     if "=" in path and any(x in path for x in [
         "<script", "%3cscript", "<>", "<></>"
     ]):
-        return 5 #xss
+        return 5  # XSS
 
     if path in ["/", "/style.css", "/robots.txt", "/favicon.ico"]:
-        return 0 #normal
+        return 0  # Normal
 
-    return -1  #somting abnormal
+    return -1
 
 
-def freq_score(ip):
-    count = ip_counts.get(ip, 0)
-    if count >= 100:
-        return 3
-    elif count >= 30:
-        return 2
-    elif count >= 10:
-        return 1
-    else:
-        return 0
 def prepare(func=assign_label):
+
+    # Always reload fresh parsed file
+    df = pd.read_csv("Csv/parsed/parsed.csv")
+
+    # Label assignment
     df["label"] = df.apply(func, axis=1)
 
+    # Compute IP frequency ONCE
+    ip_counts = df["source_ip"].value_counts()
 
-    df["freq_label"] = df["source_ip"].apply(freq_score)
+    # Vectorized frequency scoring (NO row-wise calls)
+    df["freq_label"] = df["source_ip"].map(
+        lambda ip: (
+            3 if ip_counts.get(ip, 0) >= 100 else
+            2 if ip_counts.get(ip, 0) >= 30 else
+            1 if ip_counts.get(ip, 0) >= 10 else
+            0
+        )
+    )
 
+    # Save labeled data
     df.to_csv("Csv/labeled/labeled.csv", index=False)
 
     print("Label counts:")
@@ -56,7 +59,9 @@ def prepare(func=assign_label):
 
     print("\nFrequency label counts:")
     print(df["freq_label"].value_counts())
+
     return True
+
 
 if __name__ == "__main__":
     prepare()

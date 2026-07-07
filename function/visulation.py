@@ -32,13 +32,13 @@ def create_bar_graph(df):
     ax.set_title("Frequency of Security Events")
     ax.set_xlabel("Attack Type")
     ax.set_ylabel("Count")
-    ax.tick_params(axis='x', rotation=30)
+    ax.tick_params(axis='x')
 
     return fig
 
 
 def create_pie_chart(df):
-    fig = Figure(figsize=(6, 5))
+    fig = Figure(figsize=(8, 7))
     ax = fig.add_subplot(111)
 
     df = df.copy()
